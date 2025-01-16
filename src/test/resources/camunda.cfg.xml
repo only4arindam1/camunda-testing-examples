@@ -13,8 +13,9 @@
 <!--        </property>-->
 
 <!--    </bean>-->
-
-    <bean id="processEngineConfiguration" class="org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
+    <!--          class="org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">-->
+    <bean id="processEngineConfiguration"
+    class="org.camunda.community.process_test_coverage.engine.platform7.ProcessCoverageInMemProcessEngineConfiguration">
 
         <property name="jdbcUrl" value="jdbc:h2:mem:camunda;DB_CLOSE_DELAY=1000" />
         <property name="jdbcDriver" value="org.h2.Driver" />
@@ -28,6 +29,15 @@
         <property name="jobExecutorActivate" value="false" />
 
         <property name="history" value="full" />
+        <property name="expressionManager">
+            <bean class="org.camunda.bpm.engine.test.mock.MockExpressionManager"/>
+        </property>
+        <property name="processEnginePlugins">
+            <list>
+                <bean class="org.camunda.spin.plugin.impl.SpinProcessEnginePlugin" />
+                <bean class="org.camunda.connect.plugin.impl.ConnectProcessEnginePlugin" />
+            </list>
+        </property>
 
         <!-- <property name="customPostBPMNParseListeners">
           <list>
