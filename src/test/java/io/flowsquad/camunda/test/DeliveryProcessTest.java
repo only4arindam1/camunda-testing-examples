@@ -1,6 +1,11 @@
 package io.flowsquad.camunda.test;
 
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
+import org.camunda.bpm.extension.junit5.test.ProcessEngineExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.RegisterExtension;
 //import org.camunda.bpm.extension.process_test_coverage.junit.rules.TestCoverageProcessEngineRule;
 //import org.camunda.bpm.extension.process_test_coverage.junit.rules.TestCoverageProcessEngineRuleBuilder;
 //import org.camunda.bpm.scenario.ProcessScenario;
@@ -15,15 +20,24 @@ import org.camunda.bpm.engine.test.Deployment;
 //import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.taskService;
 //import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables;
 //import static org.mockito.Mockito.*;
+import org.camunda.community.process_test_coverage.junit5.platform7.ProcessEngineCoverageExtension;
+
+import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.runtimeService;
+import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
 
 @Deployment(resources = "deliver-process.bpmn")
 public class DeliveryProcessTest {
 
-//    public static final String PROCESS_KEY = "deliveryprocess";
-//    public static final String TASK_DELIVER_ORDER = "Task_DeliverOrder";
-//    public static final String VAR_ORDER_DELIVERED = "orderDelivered";
-//    public static final String END_EVENT_DELIVERY_COMPLETED = "EndEvent_DeliveryCompleted";
-//    public static final String END_EVENT_DELIVERY_CANCELLED = "EndEvent_DeliveryCancelled";
+    public static final String PROCESS_KEY = "deliveryprocess";
+    public static final String TASK_DELIVER_ORDER = "Task_DeliverOrder";
+    public static final String VAR_ORDER_DELIVERED = "orderDelivered";
+    public static final String END_EVENT_DELIVERY_COMPLETED = "EndEvent_DeliveryCompleted";
+    public static final String END_EVENT_DELIVERY_CANCELLED = "EndEvent_DeliveryCancelled";
+
+
+    @RegisterExtension
+    public static ProcessEngineCoverageExtension extension = ProcessEngineExtensionProvider.extension;
+
 //
 //    @Rule
 //    @ClassRule
@@ -44,16 +58,27 @@ public class DeliveryProcessTest {
 //                    task.complete(withVariables(VAR_ORDER_DELIVERED, true));
 //                });
 //    }
-//
-//    @Test
-//    public void shouldExecuteHappyPath() {
-//        Scenario.run(testDeliveryProcess)
-//                .startByKey(PROCESS_KEY)
-//                .execute();
-//
+
+
+
+
+    @Test
+    public void shouldExecuteHappyPath() {
+
+        final ProcessInstance instance = this.startProcess();
+
 //        verify(testDeliveryProcess)
 //                .hasFinished(END_EVENT_DELIVERY_COMPLETED);
-//    }
+
+        assertThat(instance).isWaitingAt(TASK_DELIVER_ORDER);
+
+        complete(task(), withVariables(VAR_ORDER_DELIVERED, true));
+
+
+        assertThat(instance)
+                .hasPassed(END_EVENT_DELIVERY_COMPLETED)
+                .isEnded();
+    }
 //
 //    @Test
 //    public void shouldExecuteOrderCancelled() {
@@ -86,4 +111,9 @@ public class DeliveryProcessTest {
 //        verify(testDeliveryProcess)
 //                .hasFinished(END_EVENT_DELIVERY_COMPLETED);
 //    }
+
+    private ProcessInstance startProcess() {
+        return runtimeService().startProcessInstanceByKey(PROCESS_KEY);
+    }
+
 }
