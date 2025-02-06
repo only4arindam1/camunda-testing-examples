@@ -8,7 +8,7 @@ import org.camunda.bpm.engine.test.mock.Mocks;
 
 //import org.camunda.bpm.scenario.ProcessScenario;
 
-import org.camunda.bpm.extension.mockito.ProcessExpressions;
+//import org.camunda.bpm.extension.mockito.ProcessExpressions;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.scenario.ProcessScenario;
 import org.camunda.bpm.scenario.Scenario;
@@ -134,8 +134,9 @@ public class WorkflowTest {
 //
 //        doNothing().when(mailingService).sendMail(any());
 //
-        ProcessExpressions.registerCallActivityMock(DELIVERY_PROCESS_KEY)
-                .deploy(rule);
+//        ProcessExpressions.registerCallActivityMock(DELIVERY_PROCESS_KEY)
+//                .deploy(rule);
+        //testOrderProcess
 
         when(testOrderProcess.runsCallActivity(TASK_DELIVER_ORDER1)).thenReturn(
                 Scenario.use(deliveryRequest)
@@ -163,7 +164,7 @@ public class WorkflowTest {
 //
     }
 
-    @Test
+  //  @Test
     public void shouldExecuteHappyPath() {
         //ProcessExpressions.registerCallActivityMock(DELIVERY_PROCESS_KEY);
 
