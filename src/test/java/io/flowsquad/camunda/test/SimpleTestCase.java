@@ -12,12 +12,12 @@ import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.*;
 import static org.assertj.core.api.Assertions.*;
 
 
-//@ExtendWith(ProcessEngineCoverageExtension.class)
+@ExtendWith(ProcessEngineCoverageExtension.class)
 @Deployment(resources = {"testProcess.bpmn"})
 public class SimpleTestCase {
 
-    @RegisterExtension
-    public static ProcessEngineCoverageExtension extension = ProcessEngineExtensionProvider.extension;
+//    @RegisterExtension
+//    public static ProcessEngineCoverageExtension extension = ProcessEngineExtensionProvider.extension;
 
 
     @Test

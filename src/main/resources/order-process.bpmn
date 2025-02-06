@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_12i4hfh" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
   <bpmn:process id="order-process" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_1" name="Order received">
+    <bpmn:startEvent id="start" name="Order received">
       <bpmn:outgoing>Flow_00kgcrp</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_00kgcrp" sourceRef="StartEvent_1" targetRef="Task_CheckAvailability" />
+    <bpmn:sequenceFlow id="Flow_00kgcrp" sourceRef="start" targetRef="Task_CheckAvailability" />
     <bpmn:sequenceFlow id="Flow_09nddfd" sourceRef="Task_CheckAvailability" targetRef="Gateway_12tl2hf" />
     <bpmn:exclusiveGateway id="Gateway_12tl2hf" name="Products available?" default="Flow_0lghxms">
       <bpmn:incoming>Flow_09nddfd</bpmn:incoming>
@@ -32,7 +32,7 @@
       <bpmn:incoming>Flow_0plm3v0</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0plm3v0" sourceRef="Task_SendCancellation" targetRef="EndEvent_CancellationSent" />
-    <bpmn:endEvent id="EndEvent_OrderFullfilled" name="Order fullfilled">
+    <bpmn:endEvent id="end" name="Order fullfilled">
       <bpmn:incoming>Flow_0geih94</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:boundaryEvent id="Event_1rvtds3" name="Delivery&#10;failed" attachedToRef="Task_DeliverOrder">
@@ -48,7 +48,7 @@
       <bpmn:compensateEventDefinition id="CompensateEventDefinition_1h54rum" />
     </bpmn:boundaryEvent>
     <bpmn:userTask id="Task_CancelOrder" name="Cancel order" isForCompensation="true" />
-    <bpmn:callActivity id="Task_DeliverOrder" name="Deliver order" calledElement="deliveryprocess">
+    <bpmn:callActivity id="Task_DeliverOrder" name="Deliver order" calledElement="delivery-process">
       <bpmn:extensionElements>
         <camunda:in variables="all" />
         <camunda:in businessKey="#{execution.processBusinessKey}" />
@@ -56,7 +56,7 @@
       <bpmn:incoming>Flow_1xiisft</bpmn:incoming>
       <bpmn:outgoing>Flow_0geih94</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:sequenceFlow id="Flow_0geih94" sourceRef="Task_DeliverOrder" targetRef="EndEvent_OrderFullfilled" />
+    <bpmn:sequenceFlow id="Flow_0geih94" sourceRef="Task_DeliverOrder" targetRef="end" />
     <bpmn:association id="Association_1rffg3u" associationDirection="One" sourceRef="Event_1cyhwmr" targetRef="Task_CancelOrder" />
   </bpmn:process>
   <bpmn:message id="Message_0qeqyh6" name="Problem_Received" />
@@ -102,7 +102,7 @@
         <di:waypoint x="228" y="280" />
         <di:waypoint x="290" y="280" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="start" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="192" y="262" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="174" y="305" width="73" height="14" />
@@ -129,7 +129,7 @@
           <dc:Bounds x="678" y="175" width="85" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1c812cq_di" bpmnElement="EndEvent_OrderFullfilled" bioc:stroke="black" bioc:fill="white">
+      <bpmndi:BPMNShape id="Event_1c812cq_di" bpmnElement="end" bioc:stroke="black" bioc:fill="white">
         <dc:Bounds x="892" y="262" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="876" y="305" width="68" height="14" />

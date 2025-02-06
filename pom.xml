@@ -52,6 +52,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.camunda.community.mockito</groupId>
+            <artifactId>camunda-platform-7-mockito</artifactId>
+            <scope>test</scope>
+            <version>7.22.0</version>
+        </dependency>
 
         <!-- Used to generate test coverage reports, see https://github.com/camunda-community-hub/camunda-process-test-coverage -->
 <!--        <dependency>-->

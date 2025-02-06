@@ -5,16 +5,17 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.community.process_test_coverage.junit5.platform7.ProcessEngineCoverageExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
 
-//@ExtendWith(ProcessEngineCoverageExtension.class)
+@ExtendWith(ProcessEngineCoverageExtension.class)
 @Deployment(resources = "order-process-new.bpmn")
 public class OrderProcessTest {
 
-    @RegisterExtension
-    public static ProcessEngineCoverageExtension extension = ProcessEngineExtensionProvider.extension;
+//    @RegisterExtension
+//    public static ProcessEngineCoverageExtension extension = ProcessEngineExtensionProvider.extension;
 
     @Test
     public void shouldExecuteHappyPath() {
@@ -48,7 +49,7 @@ public class OrderProcessTest {
 
 
     private ProcessInstance startProcess() {
-        return runtimeService().startProcessInstanceByKey("order-process");
+        return runtimeService().startProcessInstanceByKey("order-process-new");
     }
 
 }

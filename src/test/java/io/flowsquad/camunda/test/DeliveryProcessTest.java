@@ -25,18 +25,19 @@ import org.camunda.community.process_test_coverage.junit5.platform7.ProcessEngin
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.runtimeService;
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
 
+@ExtendWith(ProcessEngineCoverageExtension.class)
 @Deployment(resources = "deliver-process.bpmn")
 public class DeliveryProcessTest {
 
-    public static final String PROCESS_KEY = "deliveryprocess";
+    public static final String PROCESS_KEY = "delivery-process";
     public static final String TASK_DELIVER_ORDER = "Task_DeliverOrder";
     public static final String VAR_ORDER_DELIVERED = "orderDelivered";
     public static final String END_EVENT_DELIVERY_COMPLETED = "EndEvent_DeliveryCompleted";
     public static final String END_EVENT_DELIVERY_CANCELLED = "EndEvent_DeliveryCancelled";
 
 
-    @RegisterExtension
-    public static ProcessEngineCoverageExtension extension = ProcessEngineExtensionProvider.extension;
+//    @RegisterExtension
+//    public static ProcessEngineCoverageExtension extension = ProcessEngineExtensionProvider.extension;
 
 //
 //    @Rule
