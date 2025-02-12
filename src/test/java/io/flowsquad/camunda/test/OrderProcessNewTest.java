@@ -13,7 +13,7 @@ import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
 //import static org.camunda.community.mockito.MostUsefulProcessEngineConfiguration.mostUsefulProcessEngineConfiguration;
-import org.camunda.bpm.model.bpmn.Bpmn;
+//import org.camunda.bpm.model.bpmn.Bpmn;
 //import org.camunda.community.mockito.function.DeployProcess;
 
 @ExtendWith(ProcessEngineCoverageExtension.class)
@@ -54,8 +54,12 @@ public class OrderProcessNewTest {
         assertThat(instance).isWaitingAt("Task_PrepareOrder");
 
         complete(task());
-
-        assertThat(calledProcessInstance("delivery-process")).isActive();
+        ProcessInstance deliveryProcessInstance = calledProcessInstance("delivery-process");
+        assertThat(deliveryProcessInstance).isActive();
+        assertThat(deliveryProcessInstance).isWaitingAt("Task_DeliverOrder");
+        complete(task(), withVariables("orderDelivered",true));
+        assertThat(deliveryProcessInstance).isEnded();
+        assertThat(instance).isEnded();
 //        assertThat(instance).isWaitingAt("Task_DeliverOrder");
 //        assertThat(instance)
 //                .hasPassed("end")
